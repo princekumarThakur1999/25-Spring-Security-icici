@@ -1,15 +1,19 @@
 package com.paymenthub.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.paymenthub.dto.UserLogin;
 import com.paymenthub.dto.UserRegister;
 import com.paymenthub.entity.UserEntity;
 import com.paymenthub.repository.UserRepository;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService{
 	
 	@Autowired
 	UserRepository repository;
@@ -29,7 +33,18 @@ public class UserService {
 		return "Successfully Register you data. Please Try to login";
 	}
 
-	public String userLogin(UserLogin login) {
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		//this method will directily interract with repository layer
+		
+		Optional<UserEntity> user =  repository.findById(username);
+		UserEntity userdetails = user.orElseThrow(()-> new RuntimeException("Email id is not found."));
+			
+		return userdetails;
+	}
+
+	/* This is old way to logged in, but we have to us security layer to login.
+	 * public String userLogin(UserLogin login) {
 		
 		//perform db opertation
 		//using
@@ -41,7 +56,8 @@ public class UserService {
 		else {
 		return "Please try to login, Once";
 		}
-	}
+	}*/
+	
 	
 	
 }

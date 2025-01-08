@@ -37,7 +37,7 @@
 			<version>3.1.2</version>
 		</dependency>
 		
-		<!-- Jackson API jar files-->
+	<!-- Jackson API jar files-->
 	<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
 	<dependency>
 	    <groupId>com.fasterxml.jackson.core</groupId>
@@ -80,6 +80,22 @@
 	    <version>0.11.2</version>
 	    <scope>runtime</scope>
 	</dependency>
+	
+	<!-- Spring Security Jar-->
+	<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
+	<dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-config</artifactId>
+	    <version>6.2.3</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
+	<dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-web</artifactId>
+	    <version>6.2.3</version>
+	</dependency>
+
 
   </dependencies>
   <build>
