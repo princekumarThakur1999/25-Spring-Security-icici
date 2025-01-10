@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.paymenthub.dto.UserRegister;
@@ -18,12 +19,15 @@ public class UserService implements UserDetailsService{
 	@Autowired
 	UserRepository repository;
 	
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	public String userResgister(UserRegister userregister) {
 		
 		//convert userregister to entity object
 		UserEntity enity = new UserEntity();
 		enity.setEmail(userregister.getEmail());
-		enity.setPassword(userregister.getPassword());
+		enity.setPassword(bCryptPasswordEncoder.encode(userregister.getPassword()));
 		enity.setName(userregister.getName());
 		enity.setContact(userregister.getContact());
 		

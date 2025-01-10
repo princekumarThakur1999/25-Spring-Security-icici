@@ -2,22 +2,30 @@ package com.paymenthub.security;
 
 import java.io.IOException;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.paymenthub.service.JWTTokenUtil;
+import com.paymenthub.service.UserService;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
+@Component
 public class JWTTokenAuthenticationFilter extends OncePerRequestFilter{
 
 	@Autowired
 	JWTTokenUtil jwtTokenUtil;
 	
+	@Autowired
+	UserService userservice;
+
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
@@ -47,11 +55,29 @@ public class JWTTokenAuthenticationFilter extends OncePerRequestFilter{
 		
 		if(userNamefromToken != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 			
+			//DB check
 			//Security layer will verify the user is present in the DB or not.
+			UserDetails userDetails = this.userservice.loadUserByUsername(userNamefromToken);  //UserDetails is implemented by UserEntity
+			
+			//Validate JWT token and expiry time
+			boolean isValidToken =  this.jwtTokenUtil.isValidToken(userDetails.getUsername(), token);
+			
+			if(isValidToken) {
+				
+				//Update Secuirty context data for that user
+				
+				//Spring Security layer provide  a token class, and a part of token class we are going to pass User Information
+				UsernamePasswordAuthenticationToken usernamepasswordAuthToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+				SecurityContextHolder.getContext().setAuthentication(usernamepasswordAuthToken);
+				
+			}else {
+				System.out.println("Token is invalid ...Please come with Valid Token");
+			}
 			
 			//if present then allow request to hit controller layer
-			
 		}
+		
+		//next filter Forwarding
+		filterChain.doFilter(request, response);
 	}
-
 }

@@ -10,14 +10,25 @@
 	<dependency>
 	    <groupId>org.springframework</groupId>
 	    <artifactId>spring-webmvc</artifactId>
-	    <version>6.0.11</version>
+	    <version>5.3.20</version>
 	</dependency>
+
+	<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
 	<dependency>
+	    <groupId>javax.servlet</groupId>
+	    <artifactId>javax.servlet-api</artifactId>
+	    <version>4.0.1</version>
+	    <scope>provided</scope>
+	</dependency>
+
+	
+	<!--<dependency>
 	    <groupId>jakarta.servlet</groupId>
 	    <artifactId>jakarta.servlet-api</artifactId>
 	    <version>6.0.0</version>
 	    <scope>provided</scope>
-    </dependency>
+    </dependency>-->
+    
     
     <!-- Spring DB jar files-->
   	<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
@@ -86,14 +97,14 @@
 	<dependency>
 	    <groupId>org.springframework.security</groupId>
 	    <artifactId>spring-security-config</artifactId>
-	    <version>6.2.3</version>
+	    <version>5.7.7</version>
 	</dependency>
 	
 	<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
 	<dependency>
 	    <groupId>org.springframework.security</groupId>
 	    <artifactId>spring-security-web</artifactId>
-	    <version>6.2.3</version>
+	    <version>5.7.7</version>
 	</dependency>
 
 
